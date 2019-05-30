@@ -1,11 +1,11 @@
 /*eslint no-console: 0, no-unused-vars: 0*/
 "use strict";
 
-var xsjs = require("@sap/xsjs");
-var xsenv = require("@sap/xsenv");
-var port = process.env.PORT || 3000;
+const xsjs = require("@sap/xsjs");
+const xsenv = require("@sap/xsenv");
+const port = process.env.PORT || 3000;
 
-var options = {
+let options = {
     anonymous: true, // remove to authenticate calls
     redirectUrl: "/index.xsjs"
 };

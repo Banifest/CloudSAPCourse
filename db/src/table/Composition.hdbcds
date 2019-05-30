@@ -1,0 +1,11 @@
+namespace HiMTA_banifest;
+
+entity Composition {
+    @Comment: 'Id of Composition'
+    key uuid : UUID;
+    @Comment: 'Description'
+    name : String(100);
+
+    artist: Association[1] to Artist {uuid};
+    genre: Association[1] to Genre {uuid};
+};

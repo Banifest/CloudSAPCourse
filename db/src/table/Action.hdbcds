@@ -1,0 +1,8 @@
+namespace HiMTA_banifest;
+
+entity Action {
+    @Comment: 'Id of action'
+    key uuid : UUID;
+    @Comment: 'Name of concert'
+    name : String(100);
+};
