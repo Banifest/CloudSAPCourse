@@ -1,9 +1,0 @@
-namespace HiMTA_banifest;
-
-entity Genre {
-    @Comment: 'Name of genre'
-    key name : String(50);
-    @Comment: 'Description'
-    description : String(100);
-
-};
