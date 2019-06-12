@@ -1,43 +1,33 @@
-using Composition as _Composition from '../db/Composition';
-using Action as _Action from '../db/Action';
-using Genre as _Genre from '../db/Genre';
-using Artist as _Artist from '../db/Artist';
+using Cell as _Cell from '../db/Cell';
+using Table as _Table from '../db/Table';
+using Paper as _Paper from '../db/Paper';
 
 service odata {
 
-  entity Users @(
-		title: 'Composition',
+  entity Cell @(
+		title: 'Cell',
 		Capabilities: {
 			InsertRestrictions: {Insertable: false},
 			UpdateRestrictions: {Updatable: false},
 			DeleteRestrictions: {Deletable: false}
 		}
-	) as projection on _Composition;
+	) as projection on _Cell;
 
-  entity Action @(
-		title: 'Action',
+  entity Paper @(
+		title: 'Paper',
 		Capabilities: {
 			InsertRestrictions: {Insertable: false},
 			UpdateRestrictions: {Updatable: false},
 			DeleteRestrictions: {Deletable: false}
 		}
-	) as projection on _Action;
+	) as projection on _Paper;
 
-    entity Genre @(
-		title: 'Genre',
+    entity Table @(
+		title: 'Table',
 		Capabilities: {
 			InsertRestrictions: {Insertable: false},
 			UpdateRestrictions: {Updatable: false},
 			DeleteRestrictions: {Deletable: false}
 		}
-	) as projection on _Genre;
-
-    entity Artist @(
-		title: 'Artist',
-		Capabilities: {
-			InsertRestrictions: {Insertable: false},
-			UpdateRestrictions: {Updatable: false},
-			DeleteRestrictions: {Deletable: false}
-		}
-	) as projection on _Artist;
+	) as projection on _Table;
 }

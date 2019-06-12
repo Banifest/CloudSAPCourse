@@ -1,36 +1,29 @@
 {
   "sources": {
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\srv\\MusicService.cds": "using Composition as _Composition from '../db/Composition';\r\nusing Action as _Action from '../db/Action';\r\nusing Genre as _Genre from '../db/Genre';\r\nusing Artist as _Artist from '../db/Artist';\r\n\r\nservice odata {\r\n\r\n  entity Users @(\r\n\t\ttitle: 'Composition',\r\n\t\tCapabilities: {\r\n\t\t\tInsertRestrictions: {Insertable: false},\r\n\t\t\tUpdateRestrictions: {Updatable: false},\r\n\t\t\tDeleteRestrictions: {Deletable: false}\r\n\t\t}\r\n\t) as projection on _Composition;\r\n\r\n  entity Action @(\r\n\t\ttitle: 'Action',\r\n\t\tCapabilities: {\r\n\t\t\tInsertRestrictions: {Insertable: false},\r\n\t\t\tUpdateRestrictions: {Updatable: false},\r\n\t\t\tDeleteRestrictions: {Deletable: false}\r\n\t\t}\r\n\t) as projection on _Action;\r\n\r\n    entity Genre @(\r\n\t\ttitle: 'Genre',\r\n\t\tCapabilities: {\r\n\t\t\tInsertRestrictions: {Insertable: false},\r\n\t\t\tUpdateRestrictions: {Updatable: false},\r\n\t\t\tDeleteRestrictions: {Deletable: false}\r\n\t\t}\r\n\t) as projection on _Genre;\r\n\r\n    entity Artist @(\r\n\t\ttitle: 'Artist',\r\n\t\tCapabilities: {\r\n\t\t\tInsertRestrictions: {Insertable: false},\r\n\t\t\tUpdateRestrictions: {Updatable: false},\r\n\t\t\tDeleteRestrictions: {Deletable: false}\r\n\t\t}\r\n\t) as projection on _Artist;\r\n}\r\n",
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Action.cds": "using uuid from './Composition';\r\n\r\nentity Action {\r\n    key guid : uuid;\r\n    name : String(100);\r\n};",
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Composition.cds": "using Artist from './Artist';\r\nusing Genre from './Genre';\r\n\r\ntype uuid : String(32);\r\n\r\nentity Composition {\r\n    key guid : uuid;\r\n    name : String(100);\r\n\r\n    toArtist : association to one Artist on toArtist.guid = guid;\r\n    toGenre : Association to one Genre on toGenre.name = name;\r\n};",
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Artist.cds": "using Action from './Action';\r\nusing Composition from './Composition';\r\nusing uuid from './Composition';\r\n\r\nentity Artist {\r\n    key guid : uuid;\r\n    name : String(100);\r\n\r\n    toAction : Association to many Action on toAction.guid = guid;\r\n    toComposition : Association to many Composition on toComposition.guid = guid;\r\n};",
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Genre.cds": "entity Genre {\r\n    key name : String(50);\r\n    description : String(100);\r\n};"
+    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Paper.cds": "entity Paper {\r\n    key name : String(50);\r\n    description : String(100);\r\n    url: String(100);\r\n    createdOn: Timestamp;\r\n    createdBy: String(10);\r\n};",
+    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\srv\\MusicService.cds": "using Cell as _Cell from '../db/Cell';\r\nusing Table as _Table from '../db/Table';\r\nusing Paper as _Paper from '../db/Paper';\r\n\r\nservice odata {\r\n\r\n  entity Cell @(\r\n\t\ttitle: 'Cell',\r\n\t\tCapabilities: {\r\n\t\t\tInsertRestrictions: {Insertable: false},\r\n\t\t\tUpdateRestrictions: {Updatable: false},\r\n\t\t\tDeleteRestrictions: {Deletable: false}\r\n\t\t}\r\n\t) as projection on _Cell;\r\n\r\n  entity Paper @(\r\n\t\ttitle: 'Paper',\r\n\t\tCapabilities: {\r\n\t\t\tInsertRestrictions: {Insertable: false},\r\n\t\t\tUpdateRestrictions: {Updatable: false},\r\n\t\t\tDeleteRestrictions: {Deletable: false}\r\n\t\t}\r\n\t) as projection on _Paper;\r\n\r\n    entity Table @(\r\n\t\ttitle: 'Table',\r\n\t\tCapabilities: {\r\n\t\t\tInsertRestrictions: {Insertable: false},\r\n\t\t\tUpdateRestrictions: {Updatable: false},\r\n\t\t\tDeleteRestrictions: {Deletable: false}\r\n\t\t}\r\n\t) as projection on _Table;\r\n}\r\n",
+    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Cell.cds": "using Paper from './Paper';\r\nusing Table from './Table';\r\nusing uuid from './Table';\r\n\r\nentity Cell {\r\n    key guid: uuid;\r\n    value: String(20);\r\n    row: Integer;\r\n    column: Integer;\r\n    color: Integer;\r\n\r\n    createdOn: Timestamp;\r\n    createdBy: String(10);\r\n    toPaper: Association to one Paper on toPaper.name = value;\r\n    toTable: Association to many Table on toTable.guid = guid;\r\n};",
+    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Table.cds": "using Cell from './Cell';\r\n\r\ntype uuid : String(32);\r\n\r\nentity Table {\r\n    key guid : uuid;\r\n    name : String(100);\r\n    description: String(200);\r\n    quantityRow: Integer;\r\n    quantityColumn: Integer;\r\n\r\n    createdOn: Timestamp;\r\n    createdBy: String(10);\r\n    toCell : association to many Cell on toCell.guid = guid;\r\n};"
   },
   "dependencies": {
     "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\srv\\MusicService.cds": {
-      "../db/Composition": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Composition.cds",
-      "../db/Action": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Action.cds",
-      "../db/Genre": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Genre.cds",
-      "../db/Artist": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Artist.cds"
+      "../db/Cell": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Cell.cds",
+      "../db/Table": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Table.cds",
+      "../db/Paper": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Paper.cds"
     },
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Action.cds": {
-      "./Composition": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Composition.cds"
+    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Cell.cds": {
+      "./Paper": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Paper.cds",
+      "./Table": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Table.cds"
     },
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Artist.cds": {
-      "./Action": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Action.cds",
-      "./Composition": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Composition.cds"
-    },
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Composition.cds": {
-      "./Artist": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Artist.cds",
-      "./Genre": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Genre.cds"
+    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Table.cds": {
+      "./Cell": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Cell.cds"
     }
   },
   "files": [
     "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\srv\\MusicService.cds",
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Action.cds",
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Artist.cds",
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Composition.cds",
-    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Genre.cds"
+    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Cell.cds",
+    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Paper.cds",
+    "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\db\\Table.cds"
   ],
   "srv": "C:\\Users\\aliaksandr.martyniuk\\WebstormProjects\\CourseCloudSAP\\backend\\srv"
 }
