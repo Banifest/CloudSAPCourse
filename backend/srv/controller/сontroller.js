@@ -43,11 +43,6 @@ module.exports = class Controller
         res.json(answer);
     };
 
-    async paramRead(req, res)
-    {
-        res.json(await this.service.readByOption(req.body));
-    };
-
     async create(req, res)
     {
         res.json(await this.service.create(req.body));
