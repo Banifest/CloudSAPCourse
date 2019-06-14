@@ -1,11 +1,12 @@
 const Joi = require('joi');
 
 const schemas = {
-    'properties': Joi.object().keys({
-        heading: Joi.string().max(50).min(1),
-        price: Joi.number().min(1),
-        currency: Joi.string().max(50).regex(/BYN|USD|EUR/),
-        location: Joi.string().max(50).min(1),
+    'Paper': Joi.object().keys({
+        name: Joi.string().max(50).min(1),
+        url: Joi.string().uri().min(1),
+        description: Joi.string().max(100),
+        createOn: Joi.date().timestamp("unix"),
+        createBy: Joi.string().max(10).min(1),
     }),
 
     'offices': Joi.object().keys({

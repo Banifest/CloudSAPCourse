@@ -31,15 +31,12 @@ module.exports = {
  * @param scope
  * @throws CMN_Forbidden
  */
-function checkAjaxAuth(req, scope)
-{
-    if (scope === null || process.argv[2] === "--debug")
-    {
+function checkAjaxAuth(req, scope) {
+    if (scope === null || process.argv[2] === "--debug") {
         return;
     }
 
-    if (!req.authInfo.checkScope(`${req.authInfo.xsappname}.${scope}`))
-    {
+    if (!req.authInfo.checkScope(`${req.authInfo.xsappname}.${scope}`)) {
         throw new PTError.CMN_Forbidden([getAjaxUser(req), `${req.authInfo.xsappname}.${scope}`]);
     }
 }
@@ -49,15 +46,12 @@ function checkAjaxAuth(req, scope)
  * @param scope
  * @throws CMN_Forbidden
  */
-function checkOdataAuth(req, scope)
-{
-    if (scope === null || process.argv[2] === "--debug")
-    {
+function checkOdataAuth(req, scope) {
+    if (scope === null || process.argv[2] === "--debug") {
         return;
     }
 
-    if (!req.attr.checkScope(`${req.attr.xsappname}.${scope}`))
-    {
+    if (!req.attr.checkScope(`${req.attr.xsappname}.${scope}`)) {
         throw new PTError.CMN_Forbidden([getOdataUser(req), `${req.authInfo.xsappname}.${scope}`]);
     }
 }
@@ -67,10 +61,8 @@ function checkOdataAuth(req, scope)
  * @param req
  * @throws CMN_UserNotDefined
  */
-function getOdataUser(req)
-{
-    if (process.argv[2] === "--debug")
-    {
+function getOdataUser(req) {
+    if (process.argv[2] === "--debug") {
         return "debugUser";
     }
 
@@ -79,8 +71,7 @@ function getOdataUser(req)
     const email = getInnerProperty(["user", "emails", 0, "value"], req, undefined);
 
     const user = fio !== " " ? fio : email;
-    if (!user)
-    {
+    if (!user) {
         throw new PTError.CMN_UserNotDefined([]);
     }
     return user;
@@ -90,10 +81,8 @@ function getOdataUser(req)
  * @param req
  * @throws CMN_UserNotDefined
  */
-function getAjaxUser(req)
-{
-    if (process.argv[2] === "--debug")
-    {
+function getAjaxUser(req) {
+    if (process.argv[2] === "--debug") {
         return "debugUser";
     }
 
@@ -102,8 +91,7 @@ function getAjaxUser(req)
     const email = getInnerProperty(["authInfo", "userInfo", "email"], req, undefined);
 
     const user = fio !== " " ? fio : email;
-    if (!user)
-    {
+    if (!user) {
         throw new PTError.CMN_UserNotDefined([]);
     }
     return user;
@@ -113,8 +101,7 @@ function getAjaxUser(req)
  * @param req
  * @throws CMN_CompanyNotDefined, CMN_BadCompanyProvided
  */
-function getOdataCompany(req)
-{
+function getOdataCompany(req) {
     const aCompany = getInnerProperty(["attr", "userAttributes", "company"], req, undefined);
     return _getCompany(aCompany);
 }
@@ -123,8 +110,7 @@ function getOdataCompany(req)
  * @param req
  * @throws CMN_CompanyNotDefined, CMN_BadCompanyProvided
  */
-function getAjaxCompany(req)
-{
+function getAjaxCompany(req) {
     const aCompany = getInnerProperty(["authInfo", "userAttributes", "company"], req, undefined);
     return _getCompany(aCompany);
 }
@@ -132,10 +118,8 @@ function getAjaxCompany(req)
 /**
  * @param req
  */
-function getOdataLang(req)
-{
-    if (process.argv[2] === "--debug")
-    {
+function getOdataLang(req) {
+    if (process.argv[2] === "--debug") {
         return "en";
     }
 
@@ -146,22 +130,18 @@ function getOdataLang(req)
 /**
  * @param req
  */
-function getAjaxLang(req)
-{
-    if (process.argv[2] === "--debug")
-    {
+function getAjaxLang(req) {
+    if (process.argv[2] === "--debug") {
         return "en";
     }
 
     const langparser = require("accept-language-parser");
     const lang = req.headers["accept-language"];
-    if (!lang)
-    {
+    if (!lang) {
         return "en";
     }
     const arr = langparser.parse(lang);
-    if (!arr || arr.length < 1)
-    {
+    if (!arr || arr.length < 1) {
         return "en";
     }
     return arr[0].code;
@@ -172,11 +152,9 @@ function getAjaxLang(req)
  * @returns oEntity
  * @throws CMN_UnknownEntity
  */
-function getEntityByLabel(sLabel)
-{
+function getEntityByLabel(sLabel) {
     const oEntity = ENTITY[sLabel];
-    if (!oEntity)
-    {
+    if (!oEntity) {
         throw new PTError.CMN_UnknownEntity([sLabel]);
     }
     return oEntity;
@@ -187,8 +165,7 @@ function getEntityByLabel(sLabel)
  * @param obj
  * @param nul
  */
-function getInnerProperty(props, obj, nul)
-{
+function getInnerProperty(props, obj, nul) {
     return props.reduce((xs, x) => (xs && xs[x]) ? xs[x] : nul, obj);
 }
 
@@ -198,19 +175,15 @@ function getInnerProperty(props, obj, nul)
  * @throws CMN_CompanyNotDefined, CMN_BadCompanyProvided
  * @private
  */
-function _getCompany(aCompany)
-{
-    if (process.argv[2] === "--debug")
-    {
+function _getCompany(aCompany) {
+    if (process.argv[2] === "--debug") {
         return "LeverX";
     }
 
-    if (!aCompany)
-    {
+    if (!aCompany) {
         throw new PTError.CMN_CompanyNotDefined([]);
     }
-    if (aCompany.length !== 1)
-    {
+    if (aCompany.length !== 1) {
         throw new PTError.CMN_BadCompanyProvided([]);
     }
     return aCompany[0];

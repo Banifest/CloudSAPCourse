@@ -18,7 +18,6 @@ module.exports = class Controller
         this.routers = {
             '/': [{method: 'get', cb: this.readAll}],
             '/:id': [{method: 'get', cb: this.read}],
-            '/paramRead': [{method: 'post', cb: this.paramRead}],
             '/create': [{method: 'post', cb: this.create}],
             '/update': [{method: 'post', cb: this.update}],
             '/delete': [{method: 'post', cb: this.delete}]

@@ -4,20 +4,16 @@
 
 const HDBEXT = require("@sap/hdbext");
 
-module.exports = class
-{
+module.exports = class {
 
-    constructor(client)
-    {
+    constructor(client) {
         this.client = client;
         this.util = require("util");
         this.client.promisePrepare = this.util.promisify(this.client.prepare);
     }
 
-    static createConnection()
-    {
-        return new Promise((resolve, reject) =>
-        {
+    static createConnection() {
+        return new Promise((resolve, reject) => {
             const xsenv = require("@sap/xsenv");
             const options = xsenv.getServices({
                 hana: {
@@ -25,95 +21,71 @@ module.exports = class
                 }
             });
             options.hana.pooling = true;
-            HDBEXT.createConnection(options.hana, (error, client) =>
-            {
-                if (error)
-                {
+            HDBEXT.createConnection(options.hana, (error, client) => {
+                if (error) {
                     reject(error);
-                }
-                else
-                {
+                } else {
                     resolve(client);
                 }
             });
         });
     }
 
-    async getNextval(seqName)
-    {
-        try
-        {
+    async getNextval(seqName) {
+        try {
             const sSql = `SELECT "${seqName}".NEXTVAL AS "ID" FROM "DUMMY"`;
             const statement = await this.preparePromisified(sSql);
             const result = await this.statementExecPromisified(statement, []);
 
-            if (result.length > 0)
-            {
+            if (result.length > 0) {
                 return result[0].ID;
             }
-        } catch (e)
-        {
+        } catch (e) {
             throw new Error("Internal error");
         }
 
         throw new Error("Internal error");
     }
 
-    async executeUpdate(sSql, aValues)
-    {
-        try
-        {
+    async executeUpdate(sSql, aValues) {
+        try {
             const statement = await this.preparePromisified(sSql);
             return await this.statementExecPromisified(statement, aValues);
-        } catch (e)
-        {
+        } catch (e) {
             throw new Error("Error during executing sql: " + sSql + ". Error: " + JSON.stringify(e));
         }
     }
 
-    preparePromisified(query)
-    {
+    preparePromisified(query) {
         return this.client.promisePrepare(query);
     }
 
-    statementExecPromisified(statement, parameters)
-    {
+    statementExecPromisified(statement, parameters) {
         statement.promiseExec = this.util.promisify(statement.exec);
         return statement.promiseExec(parameters);
     }
 
-    loadProcedurePromisified(hdbext, schema, procedure)
-    {
+    loadProcedurePromisified(hdbext, schema, procedure) {
         hdbext.promiseLoadProcedure = this.util.promisify(hdbext.loadProcedure);
         return hdbext.promiseLoadProcedure(this.client, schema, procedure);
     }
 
-    callProcedurePromisified(storedProc, inputParams)
-    {
-        return new Promise((resolve, reject) =>
-        {
-            storedProc(inputParams, (error, outputScalar, ...results) =>
-            {
-                if (error)
-                {
+    callProcedurePromisified(storedProc, inputParams) {
+        return new Promise((resolve, reject) => {
+            storedProc(inputParams, (error, outputScalar, ...results) => {
+                if (error) {
                     reject(error);
-                }
-                else
-                {
-                    if (results.length < 2)
-                    {
+                } else {
+                    if (results.length < 2) {
                         resolve({
                             outputScalar: outputScalar,
                             results: results[0]
                         });
-                    }
-                    else
-                    {
+                    } else {
                         const output = {
                             outputScalar: outputScalar
                         };
-                        for (let i = 0; i < results.length; i++)
-                        {
+                        for (let i = 0; i < results.length; i++) {
                             output[`results${i}`] = results[i];
                         }
                         resolve(output);

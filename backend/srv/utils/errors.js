@@ -1,16 +1,13 @@
 const express = require('express');
 
-express.response.error = function (error)
-{
-    if (!error.code)
-    {
+express.response.error = function (error) {
+    if (!error.code) {
         error = {
             message: error.toString(),
             code: 'server_error',
             status: 500
         };
     }
-
     this.status(error.status).json(error);
 };
 

@@ -9,7 +9,7 @@ class CacheService
                 max: 50000,
                 maxAge: 30000
             };
-        this.cache = LRU(this.options);
+        this.cache = new LRU(this.options);
     }
 
     async set(req, data)

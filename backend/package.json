@@ -7,10 +7,15 @@
     "db",
     "srv"
   ],
+  "engines": {
+    "node": "^8.16"
+  },
   "dependencies": {
-    "@sap/cds": "^3.5.2",
-    "express": "^4.16.4",
-    "hdb": "^0.17.0"
+    "@sap/cds": "latest",
+    "express": "latest",
+    "hdb": "latest",
+    "node-gyp": "^5.0.0",
+    "node-gyp-install": "^2.2.0"
   },
   "scripts": {
     "start": "cds run",

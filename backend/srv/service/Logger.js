@@ -1,9 +1,10 @@
 const winston = require('winston');
 
 
-const logger = new (winston.Logger)({
+const logger = winston.createLogger({
     transports: [
-        new winston.transports.File({filename: 'log.log', level: 'info', maxsize: 500,}),
+        new winston.transports.Console(),
+        new winston.transports.File({filename: 'combined.log'})
     ]
 });
 

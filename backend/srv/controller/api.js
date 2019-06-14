@@ -1,18 +1,16 @@
 const express = require('express');
+const router = express.Router();
+const paperController = require('./PaperController')();
+const tableController = require('./TableController')();
+const cellController = require('./CellController')();
 
-module.exports = () =>
-{
-    const router = express.Router();
-    // const propertiesController = require('./PropertiesController')();
-    // const officesController = require('./OfficesController')();
-    // const agentsController = require('./AgentsController')();
-    //
+module.exports = () => {
     router.use(require('../global-contollers/cache'));
     router.use(require('../global-contollers/logger'));
-    // router.use('/properties', propertiesController);
-    // router.use('/offices', officesController);
-    // router.use('/agents', agentsController);
-    // router.use(require('../global-contollers/error'));
+    router.use(require('../global-contollers/error'));
+    router.use('/paper', paperController);
+    router.use('/table', tableController);
+    router.use('/cell', cellController);
 
     return router;
 };
