@@ -1,6 +1,6 @@
 class TableController extends require('./Controller') {
     constructor() {
-        super(new (require('../services/Offices'))());
+        super(new (require('../service/'))());
         this.readProp = this.readProp.bind(this);
         this.routers['/readProp'] = [{method: 'post', cb: this.readProp}];
         this.registerRouters();

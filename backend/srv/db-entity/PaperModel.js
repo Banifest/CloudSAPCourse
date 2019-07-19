@@ -1,5 +1,8 @@
-module.exports = class PaperModel {
+const Model = require('./Model');
+
+module.exports = class PaperModel extends Model {
     constructor() {
+        super();
         this.TABLE_NAME = `Paper`;
         Object.defineProperties(this, {
             name: {
@@ -29,12 +32,11 @@ module.exports = class PaperModel {
             },
         });
 
-
         this.create = Object.bind(create);
     }
 
     query() {
-        `SELECT * FROM ${this.TABLE_NAME}`
+        //   return await dbClass(client).executeUpdate(`SELECT * FROM *`, [this.TABLE_NAME]);
     }
 
     create() {

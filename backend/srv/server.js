@@ -26,26 +26,26 @@ const bodyParser = require('body-parser');
         threshold: "1b"
     }));
 
-    // const hanaOptions = xsenv.getServices({
-    //     hana: {
-    //         plan: "hdi-shared"
-    //     }
-    // });
-    let hanaOptions = {
+    const hanaOptions = xsenv.getServices({
         hana: {
-            host: "zeus.hana.prod.eu-central-1.whitney.dbaas.ondemand.com",
-            port: "21513",
-            encrypt: true,
-            sslValidateCertificate: true,
-            driver: "com.sap.db.jdbc.Driver",
-            url: "jdbc:sap://zeus.hana.prod.eu-central-1.whitney.dbaas.ondemand.com:21513?encrypt=true&validateCertificate=false&currentschema=SHARED",
-            schema: "SHARED",
-            hdi_user: "SHARED_CBJPD5ZEY2VWMI2TMU60N5KLH_DT",
-            hdi_password: "Xo1EIbTesySzHTSrzclc2oSsEA6MtIm89fBYN9zajxqfK0v88Rerhb-Az8jOioO6.Bv4Vr7JzQrQtyasZZaf.ykgNrnwBI1qZQk6IVolNfkLIj2n.y.kgCpDk-1ongR1",
-            user: "SHARED_CBJPD5ZEY2VWMI2TMU60N5KLH_RT",
-            password: "Tk9t.8bpaTPELse31B9_0V4D6aZ_2wUN7tlt27KG7OE9EF56uD3qUH-wAmg_s4QA-9bnvUoM-0NlTc-OnpLG3081H2UipQbnSAJuC6-voTcj0kNmWlBp3pw_ihrNK8z."
+            plan: "hdi-shared"
         }
-    };
+    });
+    // let hanaOptions = {
+    //     hana: {
+    //         host: "zeus.hana.prod.eu-central-1.whitney.dbaas.ondemand.com",
+    //         port: "21513",
+    //         encrypt: true,
+    //         sslValidateCertificate: true,
+    //         driver: "com.sap.db.jdbc.Driver",
+    //         url: "jdbc:sap://zeus.hana.prod.eu-central-1.whitney.dbaas.ondemand.com:21513?encrypt=true&validateCertificate=false&currentschema=SHARED",
+    //         schema: "SHARED",
+    //         hdi_user: "SHARED_CBJPD5ZEY2VWMI2TMU60N5KLH_DT",
+    //         hdi_password: "Xo1EIbTesySzHTSrzclc2oSsEA6MtIm89fBYN9zajxqfK0v88Rerhb-Az8jOioO6.Bv4Vr7JzQrQtyasZZaf.ykgNrnwBI1qZQk6IVolNfkLIj2n.y.kgCpDk-1ongR1",
+    //         user: "SHARED_CBJPD5ZEY2VWMI2TMU60N5KLH_RT",
+    //         password: "Tk9t.8bpaTPELse31B9_0V4D6aZ_2wUN7tlt27KG7OE9EF56uD3qUH-wAmg_s4QA-9bnvUoM-0NlTc-OnpLG3081H2UipQbnSAJuC6-voTcj0kNmWlBp3pw_ihrNK8z."
+    //     }
+    // };
 
     hanaOptions.hana.pooling = true;
     app.use(

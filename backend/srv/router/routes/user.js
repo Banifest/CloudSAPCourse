@@ -59,7 +59,7 @@ module.exports = () =>
             const db = new dbClass(req.db);
 
             const oUser = _prepareObject(req.body, req);
-            const sSql = "UPDATE \"USER\" SET \"NAME\" = ? WHERE \"USID\" = ?";
+            const sSql = `UPDATE "USER" SET "NAME" = ? WHERE "USID" = ?`;
             const aValues = [oUser.name, oUser.usid];
 
             await db.executeUpdate(sSql, aValues);

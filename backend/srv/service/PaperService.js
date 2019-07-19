@@ -1,15 +1,21 @@
 const validators = require('./validators');
 const errors = require('../utils/errors');
+const dbClass = require('../utils/dbClass');
+const Service = require('./Service');
 
-module.exports = class Service {
+module.exports = class PaperService extends Service {
     constructor(model = null, validatorName = null) {
+        // Incorrect processing of JetBrains hints
+        // noinspection JSCheckFunctionSignatures
+        super(model, validatorName);
         this.errors = require('../utils/errors');
         this.model = model;
         this.validatorName = validatorName;
     };
 
-    async readAll() {
-        return await
+    async readAll(client) {
+
+        return await new dbClass(client).executeUpdate(`SELECT * FROM paper`, ["Paper"]);
         //return await this.model.findAll();
     }
 
