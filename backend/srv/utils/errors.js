@@ -27,5 +27,9 @@ module.exports = {
     accessDenied: {
         message: 'Access denied',
         code: 'access_denied', status: 403
+    },
+    notImplemented: {
+        message: 'Method not implemented',
+        code: 'internal_server_error', status: 500
     }
 };

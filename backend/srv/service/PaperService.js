@@ -15,8 +15,7 @@ module.exports = class PaperService extends Service {
 
     async readAll(client) {
 
-        return await new dbClass(client).executeUpdate(`SELECT * FROM paper`, ["Paper"]);
-        //return await this.model.findAll();
+        return await new dbClass(client).executeUpdate(`SELECT * FROM paper`, []);
     }
 
     async readById(id) {

@@ -1,9 +1,10 @@
-const Model = require('./Model');
+const ObjectModel = require('./Model');
+const dbClass = require('../utils/dbClass');
 
-module.exports = class PaperModel extends Model {
-    constructor() {
-        super();
-        this.TABLE_NAME = `Paper`;
+module.exports = class PaperModel extends ObjectModel {
+    constructor(data = {}) {
+        super(`paper`, `name`, data, ["name", "description", "url", "createdOn", "createdBy"]);
+
         Object.defineProperties(this, {
             name: {
                 enumerable: true,
@@ -32,25 +33,9 @@ module.exports = class PaperModel extends Model {
             },
         });
 
-        this.create = Object.bind(create);
+        this.create = Object.bind(this.create);
+        this.update = Object.bind(this.update);
+
+        super._fillAttrClass(data);
     }
-
-    query() {
-        //   return await dbClass(client).executeUpdate(`SELECT * FROM *`, [this.TABLE_NAME]);
-    }
-
-    create() {
-    };
-
-    update() {
-    };
-
-    delete() {
-    };
-
-    read() {
-    };
-
-    readAll() {
-    };
 };

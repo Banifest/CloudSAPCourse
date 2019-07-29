@@ -8,28 +8,18 @@ module.exports = class Service
         this.errors = require('../utils/errors');
         this.model = model;
         this.validatorName = validatorName;
-        this.searchSetting = {
-            limit: {
-                begin: 1,
-                end: 10,
-                step: 1
-            },
-            offset: 0,
-            sortOrder: 'ASC',
-            sortField: 'id'
-        };
     };
 
-    async readAll()
+    async readAll(client)
     {
-        return await this.model.findAll();
+        return await this.model.readAll(client);
     }
 
-    async readById(id)
+    async read(client, id)
     {
-        if (!isNaN(id) && (await this.model.findById(Number(id))) != null)
+        if (!isNaN(id) && (await this.model.read(client, Number(id))) != null)
         {
-            return await (await this.model.findById(Number(id))).get({plain: true});
+            return await (await this.model.read(client, Number(id))).get({plain: true});
         }
         else
         {
@@ -49,7 +39,7 @@ module.exports = class Service
         }
     }
 
-    async updateById(id, data)
+    async update(client, data)
     {
         if ((await validators.check(this.validatorName, data)).error)
         {
@@ -57,13 +47,13 @@ module.exports = class Service
         }
         else
         {
-            await this.model.update(data, {where: {id: id}});
-            return this.readById(id);
+            await this.model.update(client, data);
+            return this.read(client, id);
         }
     }
 
-    async deleteById(id)
+    async deleteById(client, id)
     {
-        return await this.model.destroy({where: {id: id}});
+        return await this.model.delete(client, id);
     }
 };
