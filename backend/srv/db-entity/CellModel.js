@@ -1,7 +1,11 @@
 const crypto = require('crypto');
+const ObjectModel = require('./Model');
 
-module.exports = class CellModel {
-    constructor() {
+module.exports = class CellModel extends ObjectModel {
+    constructor(data = {}) {
+        super(`table`, `guid`, data,
+            ["guid", "value", "row", "column", "color", "papers", "tables", "createdOn", "createdBy"]
+        );
         Object.defineProperties(this, {
             guid: {
                 enumerable: true,

@@ -15,7 +15,8 @@ module.exports = class Service {
     async read(client, id) {
         let result = await this.model.read(client, id);
 
-        if (result != null) {
+        if (result != null
+            && result !== []) {
             return result;
         } else {
             throw this.errors.notFound;

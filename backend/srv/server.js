@@ -3,15 +3,11 @@
 const https = require("https");
 const port = process.env.PORT || 3000;
 const server = require("http").createServer();
-const xsjs = require("@sap/xsjs");
 const xsenv = require("@sap/xsenv");
-const xssec = require("@sap/xssec");
 const xsHDBConn = require("@sap/hdbext");
 const express = require("express");
-const logging = require("@sap/logging");
 const compression = require("compression");
 const cds = require("@sap/cds");
-const bodyParser = require('body-parser');
 
 (async () =>
 {

@@ -7,27 +7,27 @@ service odata {
   entity Cell @(
 		title: 'Cell',
 		Capabilities: {
-			InsertRestrictions: {Insertable: false},
-			UpdateRestrictions: {Updatable: false},
-			DeleteRestrictions: {Deletable: false}
+			InsertRestrictions: {Insertable: true},
+			UpdateRestrictions: {Updatable: true},
+			DeleteRestrictions: {Deletable: true}
 		}
 	) as projection on _Cell;
 
   entity Paper @(
 		title: 'Paper',
 		Capabilities: {
-			InsertRestrictions: {Insertable: false},
-			UpdateRestrictions: {Updatable: false},
-			DeleteRestrictions: {Deletable: false}
+			InsertRestrictions: {Insertable: true},
+			UpdateRestrictions: {Updatable: true},
+			DeleteRestrictions: {Deletable: true}
 		}
 	) as projection on _Paper;
 
     entity Table @(
 		title: 'Table',
 		Capabilities: {
-			InsertRestrictions: {Insertable: false},
-			UpdateRestrictions: {Updatable: false},
-			DeleteRestrictions: {Deletable: false}
+			InsertRestrictions: {Insertable: true},
+			UpdateRestrictions: {Updatable: true},
+			DeleteRestrictions: {Deletable: true}
 		}
 	) as projection on _Table;
 }

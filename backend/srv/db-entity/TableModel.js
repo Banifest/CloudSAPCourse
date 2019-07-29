@@ -1,5 +1,9 @@
-module.exports = class TableModel {
-    constructor() {
+const ObjectModel = require('./Model');
+
+module.exports = class TableModel extends ObjectModel {
+    constructor(data = {}) {
+        super(`table`, `guid`, data,
+            ["guid", "name", "description", "quantityRow", "quantityColumn", "createdOn", "cells", "createdBy"]);
         Object.defineProperties(this, {
             guid: {
                 enumerable: true,
@@ -43,6 +47,5 @@ module.exports = class TableModel {
                 value: [],
             },
         });
-
     }
 };
