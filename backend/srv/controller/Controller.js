@@ -30,7 +30,7 @@ module.exports = class Controller {
     };
 
     async read(req, res) {
-        let answer = await this.service.read(req.db, req.id);
+        let answer = await this.service.read(req.db, req.params.id);
         // Ignore promise, because function doesn't return any data and should do in async mode
         // noinspection JSIgnoredPromiseFromCall
         this.cache.set(req, answer);
@@ -44,11 +44,11 @@ module.exports = class Controller {
     async update(req, res) {
         let id = req.body.id;
         delete req.body.id;
-        res.json(await this.service.update(req.db, req.id, req.body));
+        res.json(await this.service.update(req.db, req.params.id, req.body));
     };
 
     async delete(req, res) {
-        res.json(await this.service.delete(req.db, req.id));
+        res.json(await this.service.delete(req.db, req.params.id));
     };
 
     registerRouters() {
