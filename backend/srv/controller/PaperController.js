@@ -7,6 +7,5 @@ class PaperController extends require('./Controller') {
 
 module.exports = () => {
     const controller = new PaperController();
-
     return controller.router;
 };

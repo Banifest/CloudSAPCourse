@@ -45,41 +45,41 @@ module.exports = class Model {
 
     async create(client, data) {
         if (data === undefined) {
-            return await dbClass(client).executeUpdate(
+            return await new dbClass(client).executeUpdate(
                 `INSERT INTO ${this.tableName}(${this.dataFieldNames}) VALUES(${super._getValuesByKeyNames(this.dataFieldNames)});`, []);
         } else {
-            return await dbClass(client).executeUpdate(
+            return await new dbClass(client).executeUpdate(
                 `INSERT INTO ${this.tableName}(${Object.keys(data)}) VALUES(${Object.values(data)}});`, []);
         }
     };
 
-    async update(client, data) {
+    async update(client, modelObjectKey = this[this.tableKeyName], data) {
         if (data === undefined) {
-            return await dbClass(client).executeUpdate(
+            return await new dbClass(client).executeUpdate(
                 `UPDATE ${this.tableName}  
                     SET ${this._formUpdateStatement(this.dataFieldNames)}
-                    WHERE ${this.tableKeyName} = ${this[this.tableKeyName]}`,
+                    WHERE ${this.tableKeyName} = ${modelObjectKey}`,
                 []);
         } else {
-            return await dbClass(client).executeUpdate(
+            return await new dbClass(client).executeUpdate(
                 `UPDATE ${this.tableName}  
                     SET ${this._formUpdateStatement(data)}
-                    WHERE ${this.tableKeyName} = ${data[this.tableKeyName]}`,
+                    WHERE ${this.tableKeyName} = ${modelObjectKey}`,
                 []);
         }
     };
 
-    async delete(client, tableKey = this[this.tableKeyName]) {
-        return await dbClass(client).executeUpdate(
-            `DELETE FROM ${this.tableName} WHERE ${this.tableKeyName} = ?`, [tableKey]);
+    async delete(client, modelObjectKey = this[this.tableKeyName]) {
+        return await new dbClass(client).executeUpdate(
+            `DELETE FROM ${this.tableName} WHERE ${this.tableKeyName} = ?`, [modelObjectKey]);
     };
 
     async readAll(client) {
-        return await dbClass(client).executeUpdate(`SELECT * FROM ${this.tableName}`, []);
+        return await new dbClass(client).executeUpdate(`SELECT * FROM ${this.tableName}`, []);
     };
 
-    async read(client, tableKey = this[this.tableKeyName]) {
-        return await dbClass(client).executeUpdate(
-            `SELECT * FROM ${this.tableName} WHERE ${this.tableKeyName} = ?`, [tableKey]);
+    async read(client, modelObjectKey = this[this.tableKeyName]) {
+        return await new dbClass(client).executeUpdate(
+            `SELECT * FROM ${this.tableName} WHERE ${this.tableKeyName} = ?`, [modelObjectKey]);
     };
 };

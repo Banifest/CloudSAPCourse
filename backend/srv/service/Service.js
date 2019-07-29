@@ -22,7 +22,7 @@ module.exports = class Service {
         }
     }
 
-    async create(data) {
+    async create(client, data) {
         if ((await validators.check(this.validatorName, data)).error) {
             throw this.errors.wrongCredentials;
         } else {
@@ -30,11 +30,11 @@ module.exports = class Service {
         }
     }
 
-    async update(client, data) {
+    async update(client, id, data) {
         if ((await validators.check(this.validatorName, data)).error) {
             throw errors.invalidId;
         } else {
-            return await this.model.update(client, data);
+            return await this.model.update(client, params, data);
         }
     }
 
