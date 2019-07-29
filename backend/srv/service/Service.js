@@ -1,59 +1,44 @@
 const validators = require('./validators');
 const errors = require('../utils/errors');
 
-module.exports = class Service
-{
-    constructor(model = null, validatorName = null)
-    {
+module.exports = class Service {
+    constructor(objectModel = null, validatorName = null) {
         this.errors = require('../utils/errors');
-        this.model = model;
+        this.model = objectModel;
         this.validatorName = validatorName;
     };
 
-    async readAll(client)
-    {
+    async readAll(client) {
         return await this.model.readAll(client);
     }
 
-    async read(client, id)
-    {
-        if (!isNaN(id) && (await this.model.read(client, Number(id))) != null)
-        {
-            return await (await this.model.read(client, Number(id))).get({plain: true});
-        }
-        else
-        {
+    async read(client, id) {
+        let result = await this.model.read(client, id);
+
+        if (result != null) {
+            return result;
+        } else {
             throw this.errors.notFound;
         }
     }
 
-    async create(data)
-    {
-        if ((await validators.check(this.validatorName, data)).error)
-        {
+    async create(data) {
+        if ((await validators.check(this.validatorName, data)).error) {
             throw this.errors.wrongCredentials;
-        }
-        else
-        {
-            return await this.model.create(data);
+        } else {
+            return await this.model.create(client, data);
         }
     }
 
-    async update(client, data)
-    {
-        if ((await validators.check(this.validatorName, data)).error)
-        {
+    async update(client, data) {
+        if ((await validators.check(this.validatorName, data)).error) {
             throw errors.invalidId;
-        }
-        else
-        {
-            await this.model.update(client, data);
-            return this.read(client, id);
+        } else {
+            return await this.model.update(client, data);
         }
     }
 
-    async deleteById(client, id)
-    {
+    async delete(client, id) {
         return await this.model.delete(client, id);
     }
 };

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const schemas = {
-    'Paper': Joi.object().keys({
+    'paper': Joi.object().keys({
         name: Joi.string().max(50).min(1),
         url: Joi.string().uri().min(1),
         description: Joi.string().max(100),
