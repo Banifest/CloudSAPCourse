@@ -33,11 +33,27 @@ module.exports = class Model {
         return result;
     }
 
+    _addQuotesToFieldNames(names) {
+        let result = [];
+        for (let iterator of names) {
+            result.push(`"${iterator}"`)
+        }
+        return result;
+    }
+
+    _getSQLInjectionLiteral(fields) {
+        let result = [];
+        for (let iterator = 0; iterator < result.length; iterator++) {
+            result.push(iterator !== result.length - 1 ? "?," : "?");
+        }
+        return result;
+    }
+
     _formUpdateStatement(data = this) {
         let result = [];
         for (let iterator in Object.keys(data)) {
             if (iterator !== this.tableKeyName) {
-                result.push(`${iterator} = ${data[iterator]}, `);
+                result.push(`"${iterator}" = ${data[iterator]}, `);
             }
         }
         return result;
@@ -46,12 +62,14 @@ module.exports = class Model {
     async create(client, data) {
         if (data === undefined) {
             return await new dbClass(client).executeUpdate(
-                `INSERT INTO "${this.tableName}"(${this.dataFieldNames}) 
-                        VALUES(${super._getValuesByKeyNames(this.dataFieldNames)});`, []);
+                `INSERT INTO "${this.tableName}"(${this._addQuotesToFieldNames(this.dataFieldNames)}) 
+                        VALUES(${this._getSQLInjectionLiteral(this.dataFieldNames)});`,
+                this._getValuesByKeyNames(this.dataFieldNames));
         } else {
             return await new dbClass(client).executeUpdate(
-                `INSERT INTO "${this.tableName}"(${Object.keys(data)}) 
-                        VALUES(${Object.values(data)}});`, []);
+                `INSERT INTO "${this.tableName}"(${this._addQuotesToFieldNames(Object.keys(data))}) 
+                        VALUES(${this._getSQLInjectionLiteral(data)});`,
+                Object.values(data));
         }
     };
 
@@ -74,7 +92,7 @@ module.exports = class Model {
     async delete(client, modelObjectKey = this[this.tableKeyName]) {
         return await new dbClass(client).executeUpdate(
             `DELETE FROM "${this.tableName}" 
-                    WHERE ${this.tableKeyName} = ${modelObjectKey}`, []);
+                    WHERE "${this.tableKeyName}" = ?`, [modelObjectKey]);
     };
 
     async readAll(client) {
@@ -84,6 +102,6 @@ module.exports = class Model {
     async read(client, modelObjectKey = this[this.tableKeyName]) {
         return await new dbClass(client).executeUpdate(
             `SELECT * FROM "${this.tableName}"
-                    WHERE ${this.tableKeyName} = ${modelObjectKey}`, []);
+                    WHERE "${this.tableKeyName}" = ?`, [modelObjectKey]);
     };
 };

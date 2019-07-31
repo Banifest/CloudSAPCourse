@@ -3,7 +3,7 @@ const dbClass = require('../utils/dbClass');
 
 module.exports = class PaperModel extends ObjectModel {
     constructor(data = {}) {
-        super(`paper`, `name`, data, ["name", "description", "url", "createdOn", "createdBy"]);
+        super(`PAPER`, `NAME`, data, ["NAME", "DESCRIPTION", "URL", "CREATEON", "CREATEBY"]);
 
         Object.defineProperties(this, {
             name: {
